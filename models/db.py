@@ -86,6 +86,7 @@ use_janrain(auth, filename='private/janrain.key')
 db.define_table('chore',
                 Field('chore_name','string',length=256),
                 Field('chore_value','decimal(6,2)'),
+                Field('chore_reward','string',length=50),
                 format='%(chore_name)s'
 )
 
