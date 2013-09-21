@@ -84,15 +84,15 @@ use_janrain(auth, filename='private/janrain.key')
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 db.define_table('chore',
-                Field('chore_name','string',length=256),
-                Field('chore_value','decimal(6,2)'),
-                Field('chore_reward','string',length=50),
+                Field('chore_name','string',length=256,label="job"),
+                Field('chore_value','decimal(6,2)',label="job value"),
+                Field('chore_reward','string',length=50,label="job reward"),
                 format='%(chore_name)s'
 )
 
 db.define_table('job',
-                Field('chore','reference chore'),
-                Field('child','reference auth_user'),
+                Field('chore','reference chore',label="job"),
+                Field('child','reference auth_user',label="who did it"),
                 Field('job_date','date'),
                 Field('approver','reference auth_user')
 )
