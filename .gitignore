@@ -1,2 +1,7 @@
 /.idea
 .pydevproject
+/sessions
+/errors
+/databases
+/cache
+/uploads
