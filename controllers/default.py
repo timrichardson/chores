@@ -9,7 +9,17 @@
 ## - call exposes all registered services (none by default)
 #########################################################################
 
-
+if False:  
+    from gluon import *
+    from db import *  #repeat for all models
+    from menu import *
+    request = current.request
+    response = current.response
+    session = current.session
+    cache = current.cache
+    
+    
+    
 def index():
     """
     example action using the internationalization operator T and flash
