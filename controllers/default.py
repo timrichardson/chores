@@ -85,10 +85,20 @@ def edit_chores():
 def submit_jobs():
     db.job.approver.readable= False
     db.job.approver.writable= False
+    child_query = ((db.auth_group.role == 'child') &
+        (db.auth_membership.group_id == db.auth_group.id) & 
+        (db.auth_user.id == db.auth_membership.user_id))
+    child_set = db(child_query)
+    db.job.child.requires = IS_IN_DB( child_set,'auth_user.id','auth_user.username')
     grid=SQLFORM.grid(db.job,fields=[db.job.chore,db.job.child,db.job.job_date])
     return dict(form=grid)
 
 @auth.requires_membership('parent')
 def approve_jobs():
+    parent_query = ((db.auth_group.role == 'parent') &
+        (db.auth_membership.group_id == db.auth_group.id) & 
+        (db.auth_user.id == db.auth_membership.user_id))
+    parent_set = db(parent_query)
+    db.job.approver.requires = IS_IN_DB( parent_set,'auth_user.id','auth_user.username')
     grid=SQLFORM.grid(db.job)
     return dict(form=grid)
