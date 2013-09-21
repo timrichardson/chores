@@ -1,0 +1,1102 @@
+(dp1
+S'output'
+p2
+S'<class \'sqlite3.OperationalError\'> near "<": syntax error'
+p3
+sS'layer'
+p4
+S'/Users/tim/web2py/applications/chores/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n## This is a sample controller\n## - index is the default action of any application\n## - user is required for authentication and authorization\n## - download is for downloading files uploaded in the db (does streaming)\n## - call exposes all registered services (none by default)\n#########################################################################\n\n\ndef index():\n    """\n    example action using the internationalization operator T and flash\n    rendered by views/default/index.html or views/generic.html\n\n    if you need a simple wiki simple replace the two lines below with:\n    return auth.wiki()\n    """\n\n\n    return dict(message=\'\')\n\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/manage_users (requires membership in\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    """\n    return dict(form=auth())\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\n\n@auth.requires_signature()\ndef data():\n    """\n    http://..../[app]/default/data/tables\n    http://..../[app]/default/data/create/[table]\n    http://..../[app]/default/data/read/[table]/[id]\n    http://..../[app]/default/data/update/[table]/[id]\n    http://..../[app]/default/data/delete/[table]/[id]\n    http://..../[app]/default/data/select/[table]\n    http://..../[app]/default/data/search/[table]\n    but URLs must be signed, i.e. linked with\n      A(\'table\',_href=URL(\'data/tables\',user_signature=True))\n    or with the signed load operator\n      LOAD(\'default\',\'data.load\',args=\'tables\',ajax=True,user_signature=True)\n    """\n    return dict(form=crud())\n\n@auth.requires_membership(\'parent\')\ndef edit_chores():\n    grid= SQLFORM.grid(db.chore)\n    return dict(form=grid)\n\n@auth.requires_login()\ndef submit_jobs():\n    db.job.approver.readable= False\n    db.job.approver.writable= False\n    child_query = db((db.auth_group.role == \'child\') &\n        (db.auth_membership.group_id == db.auth_group.id) & \n        (db.auth_user.id == db.auth_membership.user_id))\n    child_set = db(child_query)\n    db.job.child.requires = IS_IN_DB( child_set,\'auth_user.id\',\'auth_user.username\')\n    grid=SQLFORM.grid(db.job,fields=[db.job.chore,db.job.child,db.job.job_date])\n    return dict(form=grid)\n\n@auth.requires_membership(\'parent\')\ndef approve_jobs():\n    grid=SQLFORM.grid(db.job)\n    return dict(form=grid)\n\nresponse._vars=response._caller(submit_jobs)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__module__'
+p12
+S"'sqlite3'"
+p13
+sS'__getslice__'
+p14
+S"<method-wrapper '__getslice__' of OperationalError object>"
+p15
+sS'__str__'
+p16
+S"<method-wrapper '__str__' of OperationalError object>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of OperationalError object>'
+p19
+sS'__dict__'
+p20
+S'{}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of OperationalError object>'
+p23
+sS'__weakref__'
+p24
+S'None'
+p25
+sS'__init__'
+p26
+S"<method-wrapper '__init__' of OperationalError object>"
+p27
+sS'__setattr__'
+p28
+S"<method-wrapper '__setattr__' of OperationalError object>"
+p29
+sS'__reduce_ex__'
+p30
+S'<built-in method __reduce_ex__ of OperationalError object>'
+p31
+sS'__new__'
+p32
+S'<built-in method __new__ of type object>'
+p33
+sS'__format__'
+p34
+S'<built-in method __format__ of OperationalError object>'
+p35
+sS'__class__'
+p36
+S"<class 'sqlite3.OperationalError'>"
+p37
+sS'__doc__'
+p38
+S'None'
+p39
+sS'__getitem__'
+p40
+S"<method-wrapper '__getitem__' of OperationalError object>"
+p41
+sS'__setstate__'
+p42
+S'<built-in method __setstate__ of OperationalError object>'
+p43
+sS'__getattribute__'
+p44
+S"<method-wrapper '__getattribute__' of OperationalError object>"
+p45
+sS'args'
+p46
+S'(\'near "<": syntax error\',)'
+p47
+sS'__subclasshook__'
+p48
+S'<built-in method __subclasshook__ of type object>'
+p49
+sS'__unicode__'
+p50
+S'<built-in method __unicode__ of OperationalError object>'
+p51
+sS'__delattr__'
+p52
+S"<method-wrapper '__delattr__' of OperationalError object>"
+p53
+sS'__repr__'
+p54
+S"<method-wrapper '__repr__' of OperationalError object>"
+p55
+sS'__hash__'
+p56
+S"<method-wrapper '__hash__' of OperationalError object>"
+p57
+ssS'evalue'
+p58
+S'near "<": syntax error'
+p59
+sS'request'
+p60
+cgluon.html
+XML_unpickle
+p61
+(S's\xa2V\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>chores</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-3a10c3db-c529-46c0-8dbe-3b69158576b7<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_chores</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-f78cc8c7-7cf1-4f4a-a429-01780b98d974<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-3a10c3db-c529-46c0-8dbe-3b69158576b7; session_id_chores=127.0.0.1-f78cc8c7-7cf1-4f4a-a429-01780b98d974</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/chores/default/edit_chores</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.37 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/chores/default/submit_jobs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>61117</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>churchill.local</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/Users/tim/web2py/applications/admin/&#x27;, &#x27;/Users/tim/web2py/applications/welcome/&#x27;, &#x27;/Users/tim/web2py/applications/web2py_book_tim/&#x27;, &#x27;/Users/tim/web2py/applications/chores/&#x27;, &#x27;/Users/tim/web2py/applications/test_jeditable/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/Users/tim/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x10a317758: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;fe80::e2f8:47ff:fe11:9628%en1&#x27;, &#x27;192.168.0.28&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;churchill.local&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/Users/tim/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;winservice&#x27;: &#x27;&#x27;, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;scheduler_groups&#x27;: None, &#x27;password&#x27;: &#x27;&lt;ask&gt;&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/Users/tim/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_admin=127.0.0.1-3a10c3db-c529-46c0-8dbe-3b69158576b7; session_id_chores=127.0.0.1-f78cc8c7-7cf1-4f4a-a429-01780b98d974</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/chores/default/edit_chores</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.37 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>192.168.0.28</div></td></tr><tr><td><div>churchill.local</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>fe80::e2f8:47ff:fe11:9628%en1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/chores/default/submit_jobs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>61117</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/chores/default/submit_jobs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>churchill.local</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/Users/tim/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.6.3-stable+timestamp.2013.09.19.22.17.43</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x1096831e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x10a2e5738&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x10b2f6c50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x1096831e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x10a2e5738&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x10b2f6c50&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/Users/tim/web2py/applications/chores/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>submit_jobs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/Users/tim/web2py/applications/admin/&#x27;, &#x27;/Users/tim/web2py/applications/welcome/&#x27;, &#x27;/Users/tim/web2py/applications/web2py_book_tim/&#x27;, &#x27;/Users/tim/web2py/applications/chores/&#x27;, &#x27;/Users/tim/web2py/applications/test_jeditable/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/Users/tim/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x10a317758: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [&#x27;fe80::e2f8:47ff:fe11:9628%en1&#x27;, &#x27;192.168.0.28&#x27;], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;churchill.local&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/Users/tim/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;winservice&#x27;: &#x27;&#x27;, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;scheduler_groups&#x27;: None, &#x27;password&#x27;: &#x27;&lt;ask&gt;&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/Users/tim/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>192.168.0.28</div></td></tr><tr><td><div>churchill.local</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>fe80::e2f8:47ff:fe11:9628%en1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.6.3-stable+timestamp.2013.09.19.22.17.43</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2013, 9, 22, 0, 12, 12, 948933)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/chores/default/submit_jobs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2013, 9, 21, 14, 12, 12, 948944)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uuid</td><td style="vertical-align:top;">:</td><td><div>chores/127.0.0.1.2013-09-22.00-12-12.c6d98e5a-6caf-4eec-85db-34db4934f760</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x10bc22f50&gt;</div></td></tr></table></div>'
+tRp62
+sS'frames'
+p63
+(lp64
+(dp65
+S'file'
+p66
+S'/Users/tim/web2py/gluon/restricted.py'
+p67
+sS'dump'
+p68
+(dp69
+S'environment'
+p70
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, ...}"
+p71
+sS'ccode'
+p72
+S'<code object <module> at 0x114b02630, file "/Use...ications/chores/controllers/default.py", line 13>'
+p73
+ssS'lnum'
+p74
+I217
+sS'lines'
+p75
+(dp76
+I212
+S'    try:'
+p77
+sI213
+S'        if isinstance(code, types.CodeType):'
+p78
+sI214
+S'            ccode = code'
+p79
+sI215
+S'        else:'
+p80
+sI216
+S'            ccode = compile2(code, layer)'
+p81
+sI217
+S'        exec ccode in environment'
+p82
+sI218
+S'    except HTTP:'
+p83
+sI219
+S'        raise'
+p84
+sI220
+S'    except RestrictedError:'
+p85
+sI221
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p86
+ssS'call'
+p87
+S"(code='# -*- coding: utf-8 -*-\\n# this file is released ...d)\\n\\nresponse._vars=response._caller(submit_jobs)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, ...}, layer='/Users/tim/web2py/applications/chores/controllers/default.py')"
+p88
+sS'func'
+p89
+S'restricted'
+p90
+sa(dp91
+g66
+S'/Users/tim/web2py/applications/chores/controllers/default.py'
+p92
+sg68
+(dp93
+sg74
+I101
+sg75
+(dp94
+I96
+S"@auth.requires_membership('parent')"
+p95
+sI97
+S'def approve_jobs():'
+p96
+sI98
+S'    grid=SQLFORM.grid(db.job)'
+p97
+sI99
+S'    return dict(form=grid)'
+p98
+sI90
+S'        (db.auth_user.id == db.auth_membership.user_id))'
+p99
+sI91
+S'    child_set = db(child_query)'
+p100
+sI92
+S"    db.job.child.requires = IS_IN_DB( child_set,'auth_user.id','auth_user.username')"
+p101
+sI93
+S'    grid=SQLFORM.grid(db.job,fields=[db.job.chore,db.job.child,db.job.job_date])'
+p102
+sI94
+S'    return dict(form=grid)'
+p103
+sI95
+S''
+ssg87
+S'()'
+p104
+sg89
+S'<module>'
+p105
+sa(dp106
+g66
+S'/Users/tim/web2py/gluon/globals.py'
+p107
+sg68
+(dp108
+S'self'
+p109
+S'undefined'
+p110
+sS'f'
+S'<function submit_jobs>'
+p111
+ssg74
+I370
+sg75
+(dp112
+I365
+S'        self.menu = []             # used by the default view layout'
+p113
+sI366
+S'        self.files = []            # used by web2py_ajax.html'
+p114
+sI367
+S'        self.generic_patterns = []  # patterns to allow generic views'
+p115
+sI368
+S"        self.delimiters = ('{{', '}}')"
+p116
+sI369
+S'        self._vars = None'
+p117
+sI370
+S'        self._caller = lambda f: f()'
+p118
+sI371
+S'        self._view_environment = None'
+p119
+sI372
+S'        self._custom_commit = None'
+p120
+sI373
+S'        self._custom_rollback = None'
+p121
+sI374
+S''
+ssg87
+S'(f=<function submit_jobs>)'
+p122
+sg89
+S'<lambda>'
+p123
+sa(dp124
+g66
+S'/Users/tim/web2py/gluon/tools.py'
+p125
+sg68
+(dp126
+S'action'
+p127
+S'<function submit_jobs>'
+p128
+sS'a'
+S'()'
+p129
+sS'b'
+g21
+ssg74
+I3207
+sg75
+(dp130
+I3202
+S'                    flag = condition'
+p131
+sI3203
+S'                if not flag:'
+p132
+sI3204
+S'                    current.session.flash = self.messages.access_denied'
+p133
+sI3205
+S'                    return call_or_redirect('
+p134
+sI3206
+S'                        self.settings.on_failed_authorization)'
+p135
+sI3207
+S'                return action(*a, **b)'
+p136
+sI3208
+S'            f.__doc__ = action.__doc__'
+p137
+sI3209
+S'            f.__name__ = action.__name__'
+p138
+sI3210
+S'            f.__dict__.update(action.__dict__)'
+p139
+sI3211
+S'            return f'
+p140
+ssg87
+S'(*a=(), **b={})'
+p141
+sg89
+S'f'
+sa(dp142
+g66
+S'/Users/tim/web2py/applications/chores/controllers/default.py'
+p143
+sg68
+(dp144
+S'db.job.child'
+p145
+S'<gluon.dal.Field object>'
+p146
+sS'db.job.job_date'
+p147
+S'<gluon.dal.Field object>'
+p148
+sS'SQLFORM.grid'
+p149
+S'<function grid>'
+p150
+sS'global SQLFORM'
+p151
+S"<class 'gluon.sqlhtml.SQLFORM'>"
+p152
+sS'db.job'
+p153
+S'<Table job (id,chore,child,job_date,approver)>'
+p154
+sS'grid'
+p155
+g110
+sS'fields'
+p156
+g110
+sS'global db'
+p157
+S'<DAL uri="sqlite://storage.sqlite">'
+p158
+sS'db.job.chore'
+p159
+S'<gluon.dal.Field object>'
+p160
+ssg74
+I93
+sg75
+(dp161
+I96
+S"@auth.requires_membership('parent')"
+p162
+sI97
+S'def approve_jobs():'
+p163
+sI88
+S"    child_query = db((db.auth_group.role == 'child') &"
+p164
+sI89
+S'        (db.auth_membership.group_id == db.auth_group.id) &'
+p165
+sI90
+S'        (db.auth_user.id == db.auth_membership.user_id))'
+p166
+sI91
+S'    child_set = db(child_query)'
+p167
+sI92
+S"    db.job.child.requires = IS_IN_DB( child_set,'auth_user.id','auth_user.username')"
+p168
+sI93
+S'    grid=SQLFORM.grid(db.job,fields=[db.job.chore,db.job.child,db.job.job_date])'
+p169
+sI94
+S'    return dict(form=grid)'
+p170
+sI95
+S''
+ssg87
+S'()'
+p171
+sg89
+S'submit_jobs'
+p172
+sa(dp173
+g66
+S'/Users/tim/web2py/gluon/sqlhtml.py'
+p174
+sg68
+(dp175
+S'search_menu'
+p176
+g110
+sS'prefix'
+p177
+S"'w2p'"
+p178
+sS'sfields'
+p179
+S'[<gluon.dal.Field object>, <gluon.dal.Field object>, <gluon.dal.Field object>, <gluon.dal.Field object>]'
+p180
+sS'SQLFORM.search_menu'
+p181
+S'<function search_menu>'
+p182
+sS'global SQLFORM'
+p183
+S"<class 'gluon.sqlhtml.SQLFORM'>"
+p184
+ssg74
+I2143
+sg75
+(dp185
+I2144
+S"                spanel_id = '%s_query_fields' % prefix"
+p186
+sI2145
+S"                sfields_id = '%s_query_panel' % prefix"
+p187
+sI2146
+S"                skeywords_id = '%s_keywords' % prefix"
+p188
+sI2147
+S'                search_widget = lambda sfield, url: CAT(FORM('
+p189
+sI2138
+S'                             [[f for f in t if f.readable] for t in tables])'
+p190
+sI2139
+S'            if isinstance(search_widget, dict):'
+p191
+sI2140
+S'                search_widget = search_widget[tablename]'
+p192
+sI2141
+S"            if search_widget == 'default':"
+p193
+sI2142
+S"                prefix = formname == 'web2py_grid' and 'w2p' or 'w2p_%s' % formname"
+p194
+sI2143
+S'                search_menu = SQLFORM.search_menu(sfields, prefix=prefix)'
+p195
+ssg87
+S"(query=<Table job (id,chore,child,job_date,approver)>, fields=[<gluon.dal.Field object>, <gluon.dal.Field object>, <gluon.dal.Field object>, <gluon.dal.Field object>], field_id=<gluon.dal.Field object>, left=None, headers={}, orderby=None, groupby=None, searchable=True, sortable=True, paginate=20, deletable=True, editable=True, details=True, selectable=None, create=True, csv=True, links=None, links_in_grid=True, upload=<function <lambda>>, args=[], user_signature=True, maxtextlengths={}, maxtextlength=20, onvalidation=None, onfailure=None, oncreate=None, onupdate=None, ondelete=None, sorter_icons=(<gluon.html.XML object>, <gluon.html.XML object>), ui={'button': 'button btn', 'buttonadd': 'icon plus icon-plus', 'buttonback': 'icon leftarrow icon-arrow-left', 'buttondelete': 'icon trash icon-trash', 'buttonedit': 'icon pen icon-pencil', 'buttonexport': 'icon downarrow icon-download', 'buttontable': 'icon rightarrow icon-arrow-right', 'buttontext': 'buttontext button', 'buttonview': 'icon magnifier icon-zoom-in', 'content': '', ...}, showbuttontext=True, _class='web2py_grid', formname='web2py_grid', search_widget='default', ignore_rw=False, formstyle='table3cols', exportclasses=None, formargs={}, createargs={}, editargs={}, viewargs={}, selectable_submit_button='Submit', buttons_placement='right', links_placement='right', noconfirm=False, cache_count=None, client_side_delete=False)"
+p196
+sg89
+S'grid'
+p197
+sa(dp198
+g66
+S'/Users/tim/web2py/gluon/sqlhtml.py'
+p199
+sg68
+(dp200
+S'field'
+p201
+S'<gluon.dal.Field object>'
+p202
+sS'k'
+S"'1'"
+p203
+sS'field.requires'
+p204
+S'<gluon.validators.IS_IN_DB object>'
+p205
+sS'field.requires.options'
+p206
+S'<bound method IS_IN_DB.options of <gluon.validators.IS_IN_DB object>>'
+p207
+sS'v'
+S"'Set table'"
+p208
+ssg74
+I1666
+sg75
+(dp209
+I1664
+S'                    value_input = SELECT('
+p210
+sI1665
+S'                        *[OPTION(v, _value=k)'
+p211
+sI1666
+S'                          for k,v in field.requires.options()],'
+p212
+sI1667
+S'                         **dict(_id=_id))'
+p213
+sI1668
+S"                elif field.type == 'integer' or \\"
+p214
+sI1669
+S"                        field.type.startswith('reference ') or \\"
+p215
+sI1670
+S"                        field.type.startswith('list:integer') or \\"
+p216
+sI1661
+S"                elif (field.type.startswith('reference ') or"
+p217
+sI1662
+S"                      field.type.startswith('list:reference ')) and \\"
+p218
+sI1663
+S"                      hasattr(field.requires,'options'):"
+p219
+ssg87
+S"(fields=[<gluon.dal.Field object>, <gluon.dal.Field object>, <gluon.dal.Field object>, <gluon.dal.Field object>], search_options={'boolean': ['=', '!='], 'date': ['=', '!=', '<', '>', '<=', '>='], 'datetime': ['=', '!=', '<', '>', '<=', '>='], 'double': ['=', '!=', '<', '>', '<=', '>='], 'id': ['=', '!=', '<', '>', '<=', '>=', 'in', 'not in'], 'integer': ['=', '!=', '<', '>', '<=', '>=', 'in', 'not in'], 'reference': ['=', '!='], 'string': ['=', '!=', '<', '>', '<=', '>=', 'starts with', 'contains', 'in', 'not in'], 'text': ['=', '!=', '<', '>', '<=', '>=', 'starts with', 'contains', 'in', 'not in'], 'time': ['=', '!=', '<', '>', '<=', '>=']}, prefix='w2p')"
+p220
+sg89
+S'search_menu'
+p221
+sa(dp222
+g66
+S'/Users/tim/web2py/gluon/validators.py'
+p223
+sg68
+(dp224
+S'self'
+p225
+S'<gluon.validators.IS_IN_DB object>'
+p226
+sS'self.build_set'
+p227
+S'<bound method IS_IN_DB.build_set of <gluon.validators.IS_IN_DB object>>'
+p228
+ssg74
+I555
+sg75
+(dp229
+I550
+S'            self.labels = [self.label % r for r in records]'
+p230
+sI551
+S'        else:'
+p231
+sI552
+S'            self.labels = [self.label(r) for r in records]'
+p232
+sI553
+S''
+sI554
+S'    def options(self, zero=True):'
+p233
+sI555
+S'        self.build_set()'
+p234
+sI556
+S'        items = [(k, self.labels[i]) for (i, k) in enumerate(self.theset)]'
+p235
+sI557
+S'        if self.sort:'
+p236
+sI558
+S'            items.sort(options_sorter)'
+p237
+sI559
+S'        if zero and not self.zero is None and not self.multiple:'
+p238
+ssg87
+S'(self=<gluon.validators.IS_IN_DB object>, zero=True)'
+p239
+sg89
+S'options'
+p240
+sa(dp241
+g66
+S'/Users/tim/web2py/gluon/validators.py'
+p242
+sg68
+(dp243
+S'self.dbset'
+p244
+S"<Set <Set (((auth_group.role = 'child') AND (aut...) AND (auth_user.id = auth_membership.user_id))>>"
+p245
+sS'fields'
+p246
+S'[<gluon.dal.Field object>, <gluon.dal.Field object>]'
+p247
+sS'self'
+p248
+S'<gluon.validators.IS_IN_DB object>'
+p249
+sS').select'
+p250
+g110
+sS'records'
+p251
+g110
+sS'table'
+p252
+S'<Table auth_user (id,first_name,last_name,email,...stration_key,reset_password_key,registration_id)>'
+p253
+sS'dd'
+p254
+S"{'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>}"
+p255
+ssg74
+I541
+sg75
+(dp256
+I544
+S'                reduce(lambda a, b: a | b, ('
+p257
+sI545
+S"                    f for f in fields if not f.name == 'id'))"
+p258
+sI536
+S'            groupby = self.groupby'
+p259
+sI537
+S'            distinct = self.distinct'
+p260
+sI538
+S'            dd = dict(orderby=orderby, groupby=groupby,'
+p261
+sI539
+S'                      distinct=distinct, cache=self.cache,'
+p262
+sI540
+S'                      cacheable=True)'
+p263
+sI541
+S'            records = self.dbset(table).select(*fields, **dd)'
+p264
+sI542
+S'        else:'
+p265
+sI543
+S'            orderby = self.orderby or \\'
+p266
+ssg87
+S'(self=<gluon.validators.IS_IN_DB object>)'
+p267
+sg89
+S'build_set'
+p268
+sa(dp269
+g66
+S'/Users/tim/web2py/gluon/dal.py'
+p270
+sg68
+(dp271
+S'self.query'
+p272
+S'<Query ((auth_user.id IS NOT NULL) AND <Set (((a... AND (auth_user.id = auth_membership.user_id))>)>'
+p273
+sS'adapter.select'
+p274
+S'<bound method SQLiteAdapter.select of <gluon.dal.SQLiteAdapter object>>'
+p275
+sS'fields'
+p276
+S'[<gluon.dal.Field object>, <gluon.dal.Field object>]'
+p277
+sS'adapter'
+p278
+S'<gluon.dal.SQLiteAdapter object>'
+p279
+sS'attributes'
+p280
+S"{'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>}"
+p281
+sS'self'
+p282
+S'<Set ((auth_user.id IS NOT NULL) AND <Set (((aut... AND (auth_user.id = auth_membership.user_id))>)>'
+p283
+ssg74
+I10069
+sg75
+(dp284
+I10064
+S"                                    attributes.get('join',None),"
+p285
+sI10065
+S"                                    attributes.get('left',None),"
+p286
+sI10066
+S"                                    attributes.get('orderby',None),"
+p287
+sI10067
+S"                                    attributes.get('groupby',None))"
+p288
+sI10068
+S'        fields = adapter.expand_all(fields, tablenames)'
+p289
+sI10069
+S'        return adapter.select(self.query,fields,attributes)'
+p290
+sI10070
+S''
+sI10071
+S'    def nested_select(self,*fields,**attributes):'
+p291
+sI10072
+S'        return Expression(self.db,self._select(*fields,**attributes))'
+p292
+sI10073
+S''
+ssg87
+S"(self=<Set ((auth_user.id IS NOT NULL) AND <Set (((aut... AND (auth_user.id = auth_membership.user_id))>)>, *fields=[<gluon.dal.Field object>, <gluon.dal.Field object>], **attributes={'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>})"
+p293
+sg89
+S'select'
+p294
+sa(dp295
+g66
+S'/Users/tim/web2py/gluon/dal.py'
+p296
+sg68
+(dp297
+S'fields'
+p298
+S'[<gluon.dal.Field object>, <gluon.dal.Field object>]'
+p299
+sS'self'
+p300
+S'<gluon.dal.SQLiteAdapter object>'
+p301
+sS').select'
+p302
+S'<bound method SQLiteAdapter.select of <gluon.dal.SQLiteAdapter object>>'
+p303
+sS'attributes'
+p304
+S"{'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>}"
+p305
+sS'global SQLiteAdapter'
+p306
+S"<class 'gluon.dal.SQLiteAdapter'>"
+p307
+sS'query'
+p308
+S'<Query ((auth_user.id IS NOT NULL) AND <Set (((a... AND (auth_user.id = auth_membership.user_id))>)>'
+p309
+sS'builtinsuper'
+p310
+S"<type 'super'>"
+p311
+ssg74
+I2301
+sg75
+(dp312
+I2304
+S"    drivers = ('sqlite3','sqlite2')"
+p313
+sI2305
+S''
+sI2296
+S'        Note that the entire database, rather than one record, is locked'
+p314
+sI2297
+S'        (it will be locked eventually anyway by the following UPDATE).'
+p315
+sI2298
+S'        """'
+p316
+sI2299
+S"        if attributes.get('for_update', False) and not 'cache' in attributes:"
+p317
+sI2300
+S"            self.execute('BEGIN IMMEDIATE TRANSACTION;')"
+p318
+sI2301
+S'        return super(SQLiteAdapter, self).select(query, fields, attributes)'
+p319
+sI2302
+S''
+sI2303
+S'class SpatiaLiteAdapter(SQLiteAdapter):'
+p320
+ssg87
+S"(self=<gluon.dal.SQLiteAdapter object>, query=<Query ((auth_user.id IS NOT NULL) AND <Set (((a... AND (auth_user.id = auth_membership.user_id))>)>, fields=[<gluon.dal.Field object>, <gluon.dal.Field object>], attributes={'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>})"
+p321
+sg89
+g294
+sa(dp322
+g66
+S'/Users/tim/web2py/gluon/dal.py'
+p323
+sg68
+(dp324
+S'fields'
+p325
+S'[<gluon.dal.Field object>, <gluon.dal.Field object>]'
+p326
+sS'self'
+p327
+S'<gluon.dal.SQLiteAdapter object>'
+p328
+sS'attributes'
+p329
+S"{'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>}"
+p330
+sS'self._select_aux'
+p331
+S'<bound method SQLiteAdapter._select_aux of <gluon.dal.SQLiteAdapter object>>'
+p332
+sS'sql'
+p333
+S"'SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;'"
+p334
+ssg74
+I1748
+sg75
+(dp335
+I1743
+S'            return cache_model('
+p336
+sI1744
+S'                key,'
+p337
+sI1745
+S'                lambda self=self,args=args:self._select_aux(*args),'
+p338
+sI1746
+S'                time_expire)'
+p339
+sI1747
+S'        else:'
+p340
+sI1748
+S'            return self._select_aux(sql,fields,attributes)'
+p341
+sI1749
+S''
+sI1750
+S'    def _count(self, query, distinct=None):'
+p342
+sI1751
+S'        tablenames = self.tables(query)'
+p343
+sI1752
+S'        if query:'
+p344
+ssg87
+S"(self=<gluon.dal.SQLiteAdapter object>, query=<Query ((auth_user.id IS NOT NULL) AND <Set (((a... AND (auth_user.id = auth_membership.user_id))>)>, fields=[<gluon.dal.Field object>, <gluon.dal.Field object>], attributes={'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>})"
+p345
+sg89
+g294
+sa(dp346
+g66
+S'/Users/tim/web2py/gluon/dal.py'
+p347
+sg68
+(dp348
+S'self'
+p349
+S'<gluon.dal.SQLiteAdapter object>'
+p350
+sS'self.execute'
+p351
+S'<bound method SQLiteAdapter.execute of <gluon.dal.SQLiteAdapter object>>'
+p352
+sS'sql'
+p353
+S"'SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;'"
+p354
+ssg74
+I1713
+sg75
+(dp355
+I1708
+S''
+sI1709
+S'    def _select_aux(self,sql,fields,attributes):'
+p356
+sI1710
+S'        args_get = attributes.get'
+p357
+sI1711
+S"        cache = args_get('cache',None)"
+p358
+sI1712
+S'        if not cache:'
+p359
+sI1713
+S'            self.execute(sql)'
+p360
+sI1714
+S'            rows = self._fetchall()'
+p361
+sI1715
+S'        else:'
+p362
+sI1716
+S'            (cache_model, time_expire) = cache'
+p363
+sI1717
+S"            key = self.uri + '/' + sql + '/rows'"
+p364
+ssg87
+S"(self=<gluon.dal.SQLiteAdapter object>, sql='SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;', fields=[<gluon.dal.Field object>, <gluon.dal.Field object>], attributes={'cache': None, 'cacheable': True, 'distinct': None, 'groupby': None, 'orderby': <gluon.dal.Expression object>})"
+p365
+sg89
+S'_select_aux'
+p366
+sa(dp367
+g66
+S'/Users/tim/web2py/gluon/dal.py'
+p368
+sg68
+(dp369
+S'a'
+S"('SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;',)"
+p370
+sS'self'
+p371
+S'<gluon.dal.SQLiteAdapter object>'
+p372
+sS'b'
+g21
+sS'self.log_execute'
+p373
+S'<bound method SQLiteAdapter.log_execute of <gluon.dal.SQLiteAdapter object>>'
+p374
+ssg74
+I1833
+sg75
+(dp375
+I1828
+S'        self.db._timings.append((command,time.time()-t0))'
+p376
+sI1829
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p377
+sI1830
+S'        return ret'
+p378
+sI1831
+S''
+sI1832
+S'    def execute(self, *a, **b):'
+p379
+sI1833
+S'        return self.log_execute(*a, **b)'
+p380
+sI1834
+S''
+sI1835
+S'    def represent(self, obj, fieldtype):'
+p381
+sI1836
+S'        field_is_type = fieldtype.startswith'
+p382
+sI1837
+S'        if isinstance(obj, CALLABLETYPES):'
+p383
+ssg87
+S"(self=<gluon.dal.SQLiteAdapter object>, *a=('SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;',), **b={})"
+p384
+sg89
+S'execute'
+p385
+sa(dp386
+g66
+S'/Users/tim/web2py/gluon/dal.py'
+p387
+sg68
+(dp388
+S'a'
+S"('SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;',)"
+p389
+sS'b'
+g21
+sS'self'
+p390
+S'<gluon.dal.SQLiteAdapter object>'
+p391
+sS'ret'
+p392
+g110
+sS'self.cursor'
+p393
+S'<sqlite3.Cursor object>'
+p394
+sS'command'
+p395
+S"'SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;'"
+p396
+sS'self.cursor.execute'
+p397
+S'<built-in method execute of sqlite3.Cursor object>'
+p398
+ssg74
+I1827
+sg75
+(dp399
+I1824
+S"            LOGGER.debug('SQL: %s' % command)"
+p400
+sI1825
+S'        self.db._lastsql = command'
+p401
+sI1826
+S'        t0 = time.time()'
+p402
+sI1827
+S'        ret = self.cursor.execute(command, *a[1:], **b)'
+p403
+sI1828
+S'        self.db._timings.append((command,time.time()-t0))'
+p404
+sI1829
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p405
+sI1830
+S'        return ret'
+p406
+sI1831
+S''
+sI1822
+S'            command = self.filter_sql_command(command)'
+p407
+sI1823
+S'        if self.db._debug:'
+p408
+ssg87
+S"(self=<gluon.dal.SQLiteAdapter object>, *a=('SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;',), **b={})"
+p409
+sg89
+S'log_execute'
+p410
+sasS'pyver'
+p411
+S'Python 2.7.5: /opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python (prefix: /opt/local/Library/Frameworks/Python.framework/Versions/2.7)'
+p412
+sS'session'
+p413
+g61
+(S's(\x0b\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>2592000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>37b6864a-6734-414f-bd0d-86945db3f225</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2013, 9, 21, 17, 8, 15, 792026)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remember</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>tim@tim-richardson.net</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>Tim</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>Richardson</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">username</td><td style="vertical-align:top;">:</td><td><div>tim</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>Access control manager</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">3</td><td style="vertical-align:top;">:</td><td><div>parent</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_orderby</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_query</td><td style="vertical-align:top;">:</td><td><div>db.auth_membership.id&gt;0</div></td></tr></table></div>'
+tRp414
+sS'etype'
+p415
+S"<class 'sqlite3.OperationalError'>"
+p416
+sS'date'
+p417
+S'Sun Sep 22 00:12:12 2013'
+p418
+sS'response'
+p419
+g61
+(S's\x1b0\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x10f8e8b58&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="brand" data-w2p_disable_with="default" href="http://www.web2py.com/"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/chores/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Actions</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Edit Chores</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/chores/default/edit_chores</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Add Jobs</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/chores/default/submit_jobs</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Approve Jobs</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/chores/default/approve_jobs</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div><span class="highlighted">web2py</span></div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/design/chores</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Controller&#x27;&gt;, False, &#x27;/admin/default/edit/chores/controllers/default.py&#x27;), (&lt;lazyT &#x27;View&#x27;&gt;, False, &#x27;/admin/default/edit/chores/views/default/submit_jobs.html&#x27;), (&lt;lazyT &#x27;Layout&#x27;&gt;, False, &#x27;/admin/default/edit/chores/views/layout.html&#x27;), (&lt;lazyT &#x27;Stylesheet&#x27;&gt;, False, &#x27;/admin/default/edit/chores/static/css/web2py.css&#x27;), (&lt;lazyT &#x27;DB Model&#x27;&gt;, False, &#x27;/admin/default/edit/chores/models/db.py&#x27;), (&lt;lazyT &#x27;Menu Model&#x27;&gt;, False, &#x27;/admin/default/edit/chores/models/menu.py&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;/chores/appadmin/index&#x27;), (&lt;lazyT &#x27;Errors&#x27;&gt;, False, &#x27;/admin/default/errors/chores&#x27;), (&lt;lazyT &#x27;About&#x27;&gt;, False, &#x27;/admin/default/about/chores&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Download&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Support&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/support&#x27;), (&lt;lazyT &#x27;Demo&#x27;&gt;, False, &#x27;http://web2py.com/demo_admin&#x27;), (&lt;lazyT &#x27;Quick Examples&#x27;&gt;, False, &#x27;http://web2py.com/examples/default/examples&#x27;), (&lt;lazyT &#x27;FAQ&#x27;&gt;, False, &#x27;http://web2py.com/AlterEgo&#x27;), (&lt;lazyT &#x27;Videos&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/videos/&#x27;), (&lt;lazyT &#x27;Free Applications&#x27;&gt;, False, &#x27;http://web2py.com/appliances&#x27;), (&lt;lazyT &#x27;Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layouts&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;), (&lt;lazyT &#x27;Recipes&#x27;&gt;, False, &#x27;http://web2pyslices.com/&#x27;), (&lt;lazyT &#x27;Semantic&#x27;&gt;, False, &#x27;http://web2py.com/semantic&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Preface&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/00&#x27;), (&lt;lazyT &#x27;Introduction&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/01&#x27;), (&lt;lazyT &#x27;Python&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/02&#x27;), (&lt;lazyT &#x27;Overview&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/03&#x27;), (&lt;lazyT &#x27;The Core&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/04&#x27;), (&lt;lazyT &#x27;The Views&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/05&#x27;), (&lt;lazyT &#x27;Database&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/06&#x27;), (&lt;lazyT &#x27;Forms and Validators&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/07&#x27;), (&lt;lazyT &#x27;Email and SMS&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/08&#x27;), (&lt;lazyT &#x27;Access Control&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/09&#x27;), (&lt;lazyT &#x27;Services&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/10&#x27;), (&lt;lazyT &#x27;Ajax Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/11&#x27;), (&lt;lazyT &#x27;Components and Plugins&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/12&#x27;), (&lt;lazyT &#x27;Deployment Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/13&#x27;), (&lt;lazyT &#x27;Other Recipes&#x27;&gt;, False, &#x27;http://www.web2py.com/book/default/chapter/14&#x27;), (&lt;lazyT &#x27;Buy this book&#x27;&gt;, False, &#x27;http://stores.lulu.com/web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&lt;lazyT &#x27;Groups&#x27;&gt;, False, &#x27;http://www.web2py.com/examples/default/usergroups&#x27;), (&lt;lazyT &#x27;Twitter&#x27;&gt;, False, &#x27;http://twitter.com/web2py&#x27;), (&lt;lazyT &#x27;Live Chat&#x27;&gt;, False, &#x27;http://webchat.freenode.net/?channels=web2py&#x27;)]</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div>[(&#x27;plugin_wiki&#x27;, False, &#x27;http://web2py.com/examples/default/download&#x27;), (&lt;lazyT &#x27;Other Plugins&#x27;&gt;, False, &#x27;http://web2py.com/plugins&#x27;), (&lt;lazyT &#x27;Layout Plugins&#x27;&gt;, False, &#x27;http://web2py.com/layouts&#x27;)]</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div>web2py, python, framework</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/submit_jobs/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>2592000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_chores</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/Users/tim/web2py/applications/chores/sessions/127.0.0.1-f78cc8c7-7cf1-4f4a-a429-01780b98d974&#x27;, mode &#x27;rb+&#x27; at 0x10f900150&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/Users/tim/web2py/applications/chores/sessions/127.0.0.1-f78cc8c7-7cf1-4f4a-a429-01780b98d974</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>102128c8782b291a0e6c9d024e0b985a</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-f78cc8c7-7cf1-4f4a-a429-01780b98d974</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_chores</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>chores</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Chores</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/submit_jobs.html</div></td></tr></table></div>'
+tRp420
+sS'locals'
+p421
+(dp422
+S'a'
+S"('SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;',)"
+p423
+sS'self'
+p424
+S'<gluon.dal.SQLiteAdapter object>'
+p425
+sS'b'
+g21
+sS'command'
+p426
+S"'SELECT  auth_user.username, auth_user.id FROM au...id))>) ORDER BY auth_user.username, auth_user.id;'"
+p427
+sS't0'
+p428
+S'1379772732.96509'
+p429
+sssS'traceback'
+p430
+S'Traceback (most recent call last):\n  File "/Users/tim/web2py/gluon/restricted.py", line 217, in restricted\n    exec ccode in environment\n  File "/Users/tim/web2py/applications/chores/controllers/default.py", line 101, in <module>\n  File "/Users/tim/web2py/gluon/globals.py", line 370, in <lambda>\n    self._caller = lambda f: f()\n  File "/Users/tim/web2py/gluon/tools.py", line 3207, in f\n    return action(*a, **b)\n  File "/Users/tim/web2py/applications/chores/controllers/default.py", line 93, in submit_jobs\n    grid=SQLFORM.grid(db.job,fields=[db.job.chore,db.job.child,db.job.job_date])\n  File "/Users/tim/web2py/gluon/sqlhtml.py", line 2143, in grid\n    search_menu = SQLFORM.search_menu(sfields, prefix=prefix)\n  File "/Users/tim/web2py/gluon/sqlhtml.py", line 1666, in search_menu\n    for k,v in field.requires.options()],\n  File "/Users/tim/web2py/gluon/validators.py", line 555, in options\n    self.build_set()\n  File "/Users/tim/web2py/gluon/validators.py", line 541, in build_set\n    records = self.dbset(table).select(*fields, **dd)\n  File "/Users/tim/web2py/gluon/dal.py", line 10069, in select\n    return adapter.select(self.query,fields,attributes)\n  File "/Users/tim/web2py/gluon/dal.py", line 2301, in select\n    return super(SQLiteAdapter, self).select(query, fields, attributes)\n  File "/Users/tim/web2py/gluon/dal.py", line 1748, in select\n    return self._select_aux(sql,fields,attributes)\n  File "/Users/tim/web2py/gluon/dal.py", line 1713, in _select_aux\n    self.execute(sql)\n  File "/Users/tim/web2py/gluon/dal.py", line 1833, in execute\n    return self.log_execute(*a, **b)\n  File "/Users/tim/web2py/gluon/dal.py", line 1827, in log_execute\n    ret = self.cursor.execute(command, *a[1:], **b)\nOperationalError: near "<": syntax error\n'
+p431
+s.
