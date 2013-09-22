@@ -103,6 +103,17 @@ def submit_jobs():
     grid=SQLFORM.grid(db.job,fields=[db.job.chore,db.job.child,db.job.job_date])
     return dict(form=grid)
 
+@auth.requires_login()
+def list_jobs():
+    job_query = (   (db.job.child == auth.user_id) &
+                   (db.chore.id == db.job.chore))
+    grid=SQLFORM.grid(job_query,editable=False,deletable=False,details=False,
+                      fields=[db.job.child,db.chore.chore_name,db.job.job_date,
+                              db.chore.chore_value,db.chore.chore_reward,db.job.approver])
+    return dict(form=grid)
+
+
+
 @auth.requires_membership('parent')
 def approve_jobs():
     parent_query = ((db.auth_group.role == 'parent') &
