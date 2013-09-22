@@ -1,4 +1,13 @@
 # -*- coding: utf-8 -*-
+if False:  
+    from gluon import *
+    
+    from models.menu import *
+    request = current.request
+    response = current.response
+    session = current.session
+    cache = current.cache
+import datetime
 
 #########################################################################
 ## This scaffolding model makes your app work on Google App Engine too
@@ -45,6 +54,7 @@ crud, service, plugins = Crud(db), Service(), PluginManager()
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
+auth.settings.actions_disabled.append('register')
 
 ## configure email
 mail = auth.settings.mailer
@@ -93,7 +103,7 @@ db.define_table('chore',
 db.define_table('job',
                 Field('chore','reference chore',label="job"),
                 Field('child','reference auth_user',label="who did it"),
-                Field('job_date','date'),
+                Field('job_date','date',default=datetime.date.today()),
                 Field('approver','reference auth_user')
 )
 

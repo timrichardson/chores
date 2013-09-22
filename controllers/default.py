@@ -11,8 +11,8 @@
 
 if False:  
     from gluon import *
-    from db import *  #repeat for all models
-    from menu import *
+    from models.db import *  #repeat for all models
+    from models.menu import *
     request = current.request
     response = current.response
     session = current.session
