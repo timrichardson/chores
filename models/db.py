@@ -102,7 +102,7 @@ db.define_table('chore',
 
 db.define_table('job',
                 Field('chore','reference chore',label="job"),
-                Field('child','reference auth_user',label="who did it"),
+                Field('child','reference auth_user',label="who did it",default=auth.user_id),
                 Field('job_date','date',default=datetime.date.today()),
                 Field('approver','reference auth_user')
 )
