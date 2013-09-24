@@ -29,6 +29,7 @@ response.menu = [
         (T('Edit Chores'),False,URL('default','edit_chores')),
         (T('Add Jobs'),False,URL('default','submit_jobs')),
         (T('Approve Jobs'),False,URL('default','approve_jobs')),
+        (T('Pay Jobs'),False,URL('default','pay_jobs')),
     ])
 ]
 

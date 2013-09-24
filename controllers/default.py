@@ -91,6 +91,20 @@ def edit_chores():
     grid= SQLFORM.grid(db.chore)
     return dict(form=grid)
 
+@auth.requires_membership('parent')
+def pay_jobs():
+    grid= SQLFORM.grid(db.job,editable=False,details=False,deletable=False,
+        links = [lambda row: A('Mark Paid',_class = 'btn',
+        _href=URL("mark_job_paid",args=[row.id]))])
+    return dict(form=grid)
+
+@auth.requires_membership('parent')
+def mark_job_paid():
+    run_id = request.args(0)
+    if run_id:
+        pass
+    
+
 @auth.requires_login()
 def submit_jobs():
     db.job.approver.readable= False
