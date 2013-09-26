@@ -17,7 +17,7 @@ if False:
     response = current.response
     session = current.session
     cache = current.cache
-    
+#from gluon.debug import dbg
     
     
 def index():
@@ -93,16 +93,43 @@ def edit_chores():
 
 @auth.requires_membership('parent')
 def pay_jobs():
-    grid= SQLFORM.grid(db.job,editable=False,details=False,deletable=False,
-        links = [lambda row: A('Mark Paid',_class = 'btn',
-        _href=URL("mark_job_paid",args=[row.id]))])
-    return dict(form=grid)
+    select_child_form = {}
+    
+    grid= SQLFORM.grid(db.job,editable=True,details=False,deletable=False,
+    
+        selectable = lambda ids: redirect(URL('default','calculate_payment',vars=dict(id=ids))),
+       # links = [lambda row: A('Mark Paid',_class = 'btn',
+       # _href=URL("mark_job_paid",args=[row.id]))]
+       
+       )
+    grid.element('.web2py_table input[type=submit]')['_value'] = 'Process payment'
+    grid.element('.web2py_table')['_id'] = 'joblist'
+    
+   # dbg.set_trace()
+    return dict(select_child_form = select_child_form,form=grid)
 
 @auth.requires_membership('parent')
 def mark_job_paid():
     run_id = request.args(0)
     if run_id:
         pass
+    
+def calculate_payment():
+    """ called after sqlform.grid submit via selectable
+    """
+    children_payout = {}
+    ids = request.vars.id
+    if ids:
+        sum_value = db.chore.chore_value.sum()
+        children_totals = db((db.job.id.belongs(ids)) &
+                      (db.auth_user.id == db.job.child) &
+                      (db.chore.id == db.job.chore)
+        ).select(db.auth_user.username,sum_value,groupby=db.auth_user.username)
+        for row in children_totals:
+            children_payout[row.auth_user.username] = row._extra['SUM(chore.chore_value)']
+
+    
+    return dict(ids=ids,children_payout=children_payout)
     
 
 @auth.requires_login()
