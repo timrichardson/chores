@@ -1,0 +1,35 @@
+
+{{extend 'layout.html'}}
+
+{{=form}}
+<h3><div id = 'total_selected'>
+Selected value: $0.00
+</div></h3>
+
+<script>
+function sum_chore_value() {
+  var sum = 0
+
+  $('.web2py_grid table tr td input[type="checkbox"]:checked').closest('tr').find('div.chore_chore_value').each(
+    function()
+       {
+          sum += parseFloat($(this).text());
+       }
+    );
+    $("#total_selected").val(sum)
+   return sum
+}
+$(document).ready(
+    function(){
+            /*debugger; */
+           // $("#total_selected").text("hello");
+
+            $("input:checkbox").click(
+                function(){
+                    total_selected = sum_chore_value();
+                    $("#total_selected").text("Selected value: $" + total_selected.toFixed(2));
+                    //alert("total: " + total_selected);
+                })
+    }
+)
+</script>
