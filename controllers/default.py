@@ -91,19 +91,31 @@ def edit_chores():
     grid= SQLFORM.grid(db.chore)
     return dict(form=grid)
 
+def field_classes(field):
+    orig_represent = field.represent if field.represent else lambda v, r: v
+    field.represent = lambda v, r, f=field, o_r=orig_represent: DIV(o_r(v, r),
+        _class='%s_%s' % (f.tablename, f.name))
+    return field.represent
+
+
 @auth.requires_membership('parent')
 def pay_jobs():
     select_child_form = {}
-    
-    grid= SQLFORM.grid(db.job,editable=True,details=False,deletable=False,
+    #field_classes(db.job)
+    db.chore.chore_value.represent = field_classes(db.chore.chore_value)
+    query = (db.job.paid != True) & (db.chore.id == db.job.chore)
+    grid= SQLFORM.grid(query,editable=True,details=False,deletable=False,create=False,
     
         selectable = lambda ids: redirect(URL('default','calculate_payment',vars=dict(id=ids))),
        # links = [lambda row: A('Mark Paid',_class = 'btn',
        # _href=URL("mark_job_paid",args=[row.id]))]
        
        )
-    grid.element('.web2py_table input[type=submit]')['_value'] = 'Process payment'
-    grid.element('.web2py_table')['_id'] = 'joblist'
+    try:
+        grid.element('.web2py_table input[type=submit]')['_value'] = 'Process payment'
+        grid.element('.web2py_table')['_id'] = 'joblist'
+    except:
+        pass
     
    # dbg.set_trace()
     return dict(select_child_form = select_child_form,form=grid)
@@ -130,6 +142,13 @@ def calculate_payment():
 
     
     return dict(ids=ids,children_payout=children_payout)
+
+def complete_payment():
+    ids = request.vars.ids
+    db(db.job.id.belongs(ids)).update(paid=True)
+
+    session.flash="Payments have been recorded"
+    redirect(URL('default','index'))
     
 
 @auth.requires_login()
@@ -164,3 +183,6 @@ def approve_jobs():
     db.job.approver.requires = IS_IN_DB( parent_set,'auth_user.id','auth_user.username')
     grid=SQLFORM.grid(db.job)
     return dict(form=grid)
+
+if __name__ == "__main__":
+    print "hello"
