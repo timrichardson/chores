@@ -105,7 +105,7 @@ db.define_table('job',
                 Field('child','reference auth_user',label="who did it",default=auth.user_id),
                 Field('job_date','date',default=datetime.date.today()),
                 Field('approver','reference auth_user'),
-                Field('paid','boolean'),
+                Field('paid','boolean',default=False),
                 Field('paid_date','date')
 )
 
