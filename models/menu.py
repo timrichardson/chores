@@ -23,13 +23,7 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), []),
-    (T('Actions'), False, None, [
-        (T('Edit Chores'),False,URL('default','edit_chores')),
-        (T('Add Jobs'),False,URL('default','submit_jobs')),
-        (T('Approve Jobs'),False,URL('default','approve_jobs')),
-        (T('Pay Jobs'),False,URL('default','pay_jobs')),
-    ])
+    (T('Home'), False, URL('default', 'index'), [])
 ]
 
 DEVELOPMENT_MENU = True

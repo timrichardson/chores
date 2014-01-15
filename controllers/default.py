@@ -176,13 +176,37 @@ def list_jobs():
 
 @auth.requires_membership('parent')
 def approve_jobs():
+    if len(request.post_vars) > 0:
+        for key, value in request.post_vars.iteritems():
+            (field_name,sep,row_id) = key.partition('_row_') #name looks like home_state_row_99
+            if row_id:
+                db(db.job.id == row_id).update(**{field_name:value})
+
+
+    db.job.approver.represent = lambda value,row: option_widget(db.job.approver,value,
+                                                                **{'_name':'approver_row_%s' % row.id})
     parent_query = ((db.auth_group.role == 'parent') &
         (db.auth_membership.group_id == db.auth_group.id) & 
         (db.auth_user.id == db.auth_membership.user_id))
     parent_set = db(parent_query)
     db.job.approver.requires = IS_IN_DB( parent_set,'auth_user.id','auth_user.username')
-    grid=SQLFORM.grid(db.job)
+    grid=SQLFORM.grid(db.job,
+                      selectable=lambda ids: redirect(URL('default','approve_jobs',vars=request._get_vars)))
+    grid.elements(_type='checkbox',replace=None)
     return dict(form=grid)
+
+
+def option_widget(field,value,**kwargs):
+    """ Use web2py's intelligence to set up the right HTML for the select field
+    the widgets knows about the database model """
+    w = SQLFORM.widgets.options.widget
+    xml = w(field,value,**kwargs)
+    return xml
+
+def string_widget(field,value,**kwargs):
+    # and this is the short version
+    return SQLFORM.widgets.string.widget(field,value,**kwargs)
+
 
 if __name__ == "__main__":
     print "hello"
