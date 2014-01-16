@@ -138,7 +138,7 @@ def calculate_payment():
                       (db.chore.id == db.job.chore)
         ).select(db.auth_user.username,sum_value,groupby=db.auth_user.username)
         for row in children_totals:
-            children_payout[row.auth_user.username] = row._extra['SUM(chore.chore_value)']
+            children_payout[row.auth_user.username] = row._extra['SUM("chore"."chore_value")']
 
     
     return dict(ids=ids,children_payout=children_payout)
